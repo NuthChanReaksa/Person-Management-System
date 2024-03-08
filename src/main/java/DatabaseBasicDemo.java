@@ -24,13 +24,9 @@ public class DatabaseBasicDemo {
               System.out.println("Person Gender :"+resultSet.getString("gender"));
               System.out.println("-----------------------------------------");
           }
-
             System.out.println("We are able to connect to it now !");
         }catch (SQLException ex ){
             ex.printStackTrace();
         }
-
-
-
     }
 }

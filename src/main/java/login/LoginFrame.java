@@ -1,5 +1,6 @@
 package login;
 
+import applicationController.Controller;
 import model.Person;
 import repository.PersonRepository;
 import service.PersonService;
@@ -17,6 +18,7 @@ import java.util.*;
 import java.util.List;
 
 public class LoginFrame extends JFrame {
+    static Controller controller = new Controller();
     private JTextField emailField;
     private JPasswordField passwordField;
 
@@ -54,110 +56,23 @@ public class LoginFrame extends JFrame {
             option = MainView.renderMain(input);
             switch (option) {
                 case 1: {
-                    input.nextLine(); // clear buffer
-                    System.out.println(
-                            personService.createPerson(input) > 0 ?
-                                    "Successfully Created a New Person"
-                                    : ""
-                    );
-
+                    controller.addNewPersonCTL();
                 }
                 break;
                 case 2: {
-                    System.out.println(
-                            personService
-                                    .updatePerson(input) > 0 ?
-                                    "Successfully Update Person Info"
-                                    : ""
-                    );
+                    controller.updatePersonCTL();
                 }
                 break;
                 case 3: {
-                    System.out.println(
-                            personService
-                                    .deletePersonByID(input) > 0 ?
-                                    "Successfully Remove the Person"
-                                    : "");
-                    ;
+                    controller.deletePersonCTL();
                 }
                 break;
                 case 4: {
-                    int showOption;
-                    java.util.List<String> showMenu = new ArrayList<>(java.util.List.of(
-                            "Show Original Order",
-                            "Show Descending Order (ID)",
-                            "Show Descending Order (name) ",
-                            "Exit"));
-                    do {
-                        TableUtils.renderMenu(showMenu, "Show Person Information");
-                        System.out.print("Choose your option: ");
-                        showOption = input.nextInt();
-
-
-                        switch (showOption) {
-                            case 1:
-
-                                TableUtils.renderObjectToTable(personService.getAllPerson());
-                                break;
-                            case 2:
-                                // descending id
-                                TableUtils.renderObjectToTable(
-                                        personService.getAllPersonDescendingByID()
-                                );
-                                break;
-                            case 3:
-                                // descending name
-                                TableUtils.renderObjectToTable(
-                                        personService.getAllPersonDescendingByName()
-                                );
-                                break;
-                            default:
-                                System.out.println("Invalid option ...!!!!");
-                                break;
-                        }
-                    } while (showOption != showMenu.size());
+                   controller.showPersonInformationCTL();
                 }
                 break;
                 case 5: {
-                    int searchOption;
-                    List<String> searchMenu = new ArrayList<>(Arrays.asList(
-                            "Search By ID",
-                            "Search By Gender",
-                            "Search By Country",
-                            "Exit"));
-                    do {
-                        TableUtils.renderMenu(searchMenu, "Search for Person");
-                        System.out.print("Choose your option:");
-                        searchOption = input.nextInt();
-                        switch (searchOption) {
-                            case 1:
-                                int searchID = 0;
-                                System.out.println("Enter Person ID to search:");
-                                searchID = input.nextInt();
-                                int finalSearchID = searchID;
-                                try {
-                                    Person optionalPerson =
-                                            personService.getAllPerson()
-                                                    .stream()
-                                                    .filter(person -> person.getId() == finalSearchID)
-                                                    .findFirst()
-                                                    .orElseThrow(() -> new ArithmeticException("Whatever exception!! "));
-                                    TableUtils.renderObjectToTable(
-                                            Collections.singletonList(optionalPerson));
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                    System.out.println("There is no element with ID=" + searchID);
-                                }
-
-                                break;
-                            case 2:
-                                break;
-                            case 3:
-                                break;
-                        }
-
-                    } while (searchOption != searchMenu.size());
-
+                   controller.searchPersonInformationCTL();
                 }
                 break;
                 case 6:

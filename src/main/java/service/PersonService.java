@@ -30,6 +30,7 @@ public class PersonService {
     }
 
     public List<Person> getAllPersonDescendingByName() {
+
         return personRepository.getAllPerson()
                 .stream()
                 .sorted(
@@ -40,12 +41,14 @@ public class PersonService {
     }
 
     public int createPerson(Scanner input) {
+        System.out.println("================| Add New Person |==================");
         return personRepository.addNewPerson(new Person().addPerson(input));
     }
 
 
 
     public int deletePersonByID(Scanner input){
+        System.out.println("================| Delete Person |==================");
         System.out.println("Enter the Person ID : ");
         int id  = input.nextInt();
         try{
@@ -63,6 +66,7 @@ public class PersonService {
     }
 
     public int updatePerson(Scanner input) {
+        System.out.println("================| Update Person |==================");
         System.out.println("Enter the Person ID : ");
         int id = input.nextInt();
         try {
